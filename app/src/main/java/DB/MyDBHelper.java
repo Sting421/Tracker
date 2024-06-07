@@ -73,7 +73,7 @@ public class MyDBHelper extends SQLiteOpenHelper{
             onCreate(db);
         }
 
-        void addPatient(String name, String age, String gender, String condition, String username){
+        public void addPatient(String name, String age, String gender, String condition){
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues cv = new ContentValues();
 
@@ -81,7 +81,6 @@ public class MyDBHelper extends SQLiteOpenHelper{
             cv.put(Patient_Age, age);
             cv.put(Patient_gender, gender);
             cv.put(Patient_condition, condition);
-            cv.put(Patient_Doctor, username);
             long result = db.insert(PATIENT_TABLE,null, cv);
             if(result == -1){
                 Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
@@ -108,17 +107,18 @@ public class MyDBHelper extends SQLiteOpenHelper{
             }
         }
 
-        Cursor readAllData(String username) {
-            String query = "SELECT * FROM " + PATIENT_TABLE + " WHERE " + Patient_Doctor + " = ?";
-            SQLiteDatabase db = this.getReadableDatabase();
+    public Cursor readAllData() {
+        String query = "SELECT * FROM " + PATIENT_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
 
-            Cursor cursor = null;
-            if (db != null) {
-                cursor = db.rawQuery(query, new String[]{username});
-            }
-            return cursor;
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(query, null);
         }
-        Cursor readProfile(String username) {
+        return cursor;
+    }
+
+    Cursor readProfile(String username) {
             String query = "SELECT * FROM " + DOCTORS_DATA + " WHERE " + COLUMN_USERNAME + " = ?";
             SQLiteDatabase db = this.getReadableDatabase();
 
@@ -131,7 +131,7 @@ public class MyDBHelper extends SQLiteOpenHelper{
 
 
 
-        void updateData(String row_id,String name, String age, String gender, String condiiton){
+        public void updateData(String row_id, String name, String age, String gender, String condiiton){
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues cv = new ContentValues();
             cv.put(Patient_Age, age);
@@ -147,7 +147,7 @@ public class MyDBHelper extends SQLiteOpenHelper{
 
         }
 
-        void deleteOneRow(String row_id){
+        public void deleteOneRow(String row_id){
             SQLiteDatabase db = this.getWritableDatabase();
             long result = db.delete(PATIENT_TABLE, "_id=?", new String[]{row_id});
             if(result == -1){

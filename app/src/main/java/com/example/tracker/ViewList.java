@@ -4,20 +4,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,8 +23,6 @@ import DB.MyDBHelper;
 
 public class ViewList extends AppCompatActivity {
 
-
-    public class ViewPatientActivity extends AppCompatActivity {
 
         RecyclerView recyclerView;
         FloatingActionButton backBtn;
@@ -56,23 +47,24 @@ public class ViewList extends AppCompatActivity {
             backBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    startActivity(new Intent(ViewList.this, Dashboard.class));
 
                 }
             });
 
-            myDB = new MyDBHelper(ViewPatientActivity.this);
+            myDB = new MyDBHelper(ViewList.this);
             patient_id = new ArrayList<>();
             patient_name = new ArrayList<>();
             patient_age = new ArrayList<>();
             patient_gender = new ArrayList<>();
             patient_condition = new ArrayList<>();
 
-            //storeDataInArrays();
+            storeDataInArrays();
 
-            customAdapter = new CustomAdapter(ViewPatientActivity.this,this, patient_id, patient_name, patient_age,
+            customAdapter = new CustomAdapter(ViewList.this,this, patient_id, patient_name, patient_age,
                     patient_gender,patient_condition);
             recyclerView.setAdapter(customAdapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(ViewPatientActivity.this));
+            recyclerView.setLayoutManager(new LinearLayoutManager(ViewList.this));
 
         }
 
@@ -84,35 +76,35 @@ public class ViewList extends AppCompatActivity {
             }
         }
 
-//        void storeDataInArrays(){
-//            Cursor cursor = myDB.readAllData(userpassed.getUsername());
-//            if(cursor.getCount() == 0){
-//                empty_imageview.setVisibility(View.VISIBLE);
-//                no_data.setVisibility(View.VISIBLE);
-//            }else{
-//                cursor.move(curCount);
-//                while (cursor.moveToNext()){
-//                    patient_id.add(cursor.getString(0));
-//                    patient_name.add(cursor.getString(1));
-//                    patient_age.add(cursor.getString(2));
-//                    patient_gender.add(cursor.getString(3));
-//                    patient_condition.add(cursor.getString(4));
-//                    curCount++;
-//                }
-//                empty_imageview.setVisibility(View.GONE);
-//                no_data.setVisibility(View.GONE);
-//            }
-//        }
-//
-//
-//
+        void storeDataInArrays(){
+            Cursor cursor = myDB.readAllData();
+            if(cursor.getCount() == 0){
+                empty_imageview.setVisibility(View.VISIBLE);
+                no_data.setVisibility(View.VISIBLE);
+            }else{
+                cursor.move(curCount);
+                while (cursor.moveToNext()){
+                    patient_id.add(cursor.getString(0));
+                    patient_name.add(cursor.getString(1));
+                    patient_age.add(cursor.getString(2));
+                    patient_gender.add(cursor.getString(3));
+                    patient_condition.add(cursor.getString(4));
+                    curCount++;
+                }
+                empty_imageview.setVisibility(View.GONE);
+                no_data.setVisibility(View.GONE);
+            }
+        }
+
+
+
 //        @Override
 //        public boolean onCreateOptionsMenu(Menu menu) {
 //            MenuInflater inflater = getMenuInflater();
 //            inflater.inflate(R.menu.my_menu, menu);
 //            return super.onCreateOptionsMenu(menu);
 //        }
-
+//
 //        @Override
 //        public boolean onOptionsItemSelected(MenuItem item) {
 //            if(item.getItemId() == R.id.delete_all){
@@ -128,10 +120,10 @@ public class ViewList extends AppCompatActivity {
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    MyDBHelper myDB = new MyDBHelper(ViewPatientActivity.this);
+                    MyDBHelper myDB = new MyDBHelper(ViewList.this);
                     myDB.deleteAllData();
                     //Refresh Activity
-                    Intent intent = new Intent(ViewPatientActivity.this, ViewPatientActivity.class);
+                    Intent intent = new Intent(ViewList.this, ViewList.class);
                     startActivity(intent);
                     finish();
                 }
@@ -144,5 +136,5 @@ public class ViewList extends AppCompatActivity {
             });
             builder.create().show();
         }
-    }
+
 }

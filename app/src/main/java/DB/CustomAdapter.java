@@ -15,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tracker.R;
+import com.example.tracker.UpdateActivity;
+
 import java.util.ArrayList;
 
 
@@ -62,6 +65,7 @@ import java.util.ArrayList;
                     intent.putExtra("gender", String.valueOf(patient_gender.get(position)));
                     intent.putExtra("condition", String.valueOf(patient_condition.get(position)));
                     activity.startActivityForResult(intent, 1);
+
                 }
             });
 
@@ -73,7 +77,7 @@ import java.util.ArrayList;
             return patient_id.size();
         }
 
-        class MyViewHolder extends RecyclerView.ViewHolder {
+        public class MyViewHolder extends RecyclerView.ViewHolder {
 
             TextView patient_id_txt, patient_name_txt, patient_age_txt, patient_gender_txt, patient_condition_txt;
             LinearLayout mainLayout;

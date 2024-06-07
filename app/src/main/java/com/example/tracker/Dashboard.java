@@ -1,6 +1,10 @@
 package com.example.tracker;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +13,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class Dashboard extends AppCompatActivity {
+
+    ImageButton viewBtn, addBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +27,29 @@ public class Dashboard extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        viewBtn = findViewById(R.id.viewBtn);
+
+        viewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this,ViewList.class);
+                startActivity(intent);
+            }
+        });
+
+        addBtn = findViewById(R.id.addBtn);
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this,AddActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
 
     
